@@ -1,5 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
+** EPITECH PROJECT, 2025
 ** Lingo
 ** File description:
 ** lingo.c
@@ -11,28 +11,6 @@
 #include <string.h>
 #include "stdlib.h"
 #include "lingo.h"
-
-static size_t get_depth(char *const *tab)
-{
-    size_t i;
-
-    for (i = 0; tab[i]; i++);
-    return i;
-}
-
-static void blur(char const *secret_word)
-{
-    putchar(secret_word[0]);
-    for (size_t i = 1; secret_word[i]; i++)
-        putchar('*');
-    puts("\n");
-}
-
-static void print_prompt(char const *secret_word)
-{
-    printf("%s", GAME_PROMPT);
-    blur(secret_word);
-}
 
 static void handle_correct_placements(game_content_t *words, char *buf,
     unsigned int *used_letter)
@@ -122,11 +100,12 @@ static int start_game(char const *secret_word)
             retry = true;
             continue;
         }
-        if (right_guess(user_input, secret_word))
-            return !printf("\nYou won!\n");
+        if (right_guess(user_input, secret_word)) {
+            return !printf("\nYou won!\n") | bfree(user_input);
+        }
         retry = false;
     }
-    return !printf("\nYou lost!\n");
+    return !printf("\nYou lost!\n") | bfree(user_input);
 }
 
 int lingo(char const *filepath)

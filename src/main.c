@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2024
-** Lingo
-** File description:
-** main.c
-*/
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "lingo.h"

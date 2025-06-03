@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2024
-** Lingo
-** File description:
-** file_to_word_array.c
-*/
-
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -31,7 +24,7 @@ char **file_to_word_array(char const *filepath)
     if (fd < 0 || stat(filepath, &stafbuff) < 0)
         return nullptr;
     size = stafbuff.st_size;
-    buff = malloc(sizeof(char) * (size + 1));
+    buff = calloc((size + 1), sizeof(char));
     if (buff == nullptr)
         return nullptr;
     if (read(fd, buff, size) != size)

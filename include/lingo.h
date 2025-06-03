@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2024
-** Lingo
-** File description:
-** lingo.h
-*/
-
 #ifndef LINGO_H
     #define LINGO_H
 
@@ -23,6 +16,9 @@ typedef struct game_content_s {
 } game_content_t;
 
 void *nfree(void *ptr);
+bool bfree(void *ptr);
+size_t get_depth(char *const *tab);
+void print_prompt(char const *secret_word);
 ssize_t index_of(char const *str, char c);
 int free_array(char **array);
 int lingo(char const *filepath);

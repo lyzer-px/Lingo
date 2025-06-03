@@ -1,5 +1,5 @@
 ##
-## EPITECH PROJECT, 2024
+## EPITECH PROJECT, 2025
 ## MAKEFILE
 ## File description:
 ## FILEMAKE
@@ -12,7 +12,8 @@ SRC 	=	src/file_to_word_array.c	\
 			src/main.c					\
 			src/my_strsplt.c			\
 			src/nfree.c					\
-			src/prompt.c
+			src/prompt.c				\
+			src/utils.c
 
 NAME	=	lingo
 

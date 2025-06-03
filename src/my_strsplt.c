@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2024
-** minishell2
-** File description:
-** my_strsplt.c
-*/
-
 #include <stddef.h>
 #include <unistd.h>
 #include <string.h>
@@ -24,9 +17,8 @@ static size_t count_delims(char const *str, char delim)
 {
     size_t count = 0;
 
-    for (size_t i = 0; str[i] != '\0'; i++)
-        if (str[i] == delim)
-            count++;
+    for (size_t i = 0; str[i]; i++)
+        count += str[i] == delim;
     return count;
 }
 
@@ -55,7 +47,7 @@ char **my_strsplt(char const *str, char delim)
 
     if (array == nullptr)
         return nullptr;
-    for (; i < size + 1; i++) {
+    for (; i < size; i++) {
         array[i] = malloc(sizeof(char) * (next_word_len(str + k, delim) + 1));
         if (array[i] == nullptr)
             return nullptr;
