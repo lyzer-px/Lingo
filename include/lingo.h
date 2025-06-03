@@ -16,6 +16,12 @@
 
 extern const char *GAME_PROMPT;
 
+typedef struct game_content_s {
+    char const *secret_word;
+    char const *guess;
+    size_t guess_len;
+} game_content_t;
+
 void *nfree(void *ptr);
 ssize_t index_of(char const *str, char c);
 int free_array(char **array);

@@ -34,32 +34,46 @@ static void print_prompt(char const *secret_word)
     blur(secret_word);
 }
 
-static bool show_matches(char const *guess, char const *secret_word)
+static void handle_correct_placements(game_content_t *words, char *buf,
+    unsigned int *used_letter)
 {
-    size_t len = strlen(guess);
-    char buf[len + 1];
-    unsigned used_letter[len] = {};
-
-    memset(buf, INVALID_CHAR, len);
-    buf[len] = '\0';
-    for (size_t i = 0; i < len; i++) {
-        if (guess[i] == secret_word[i]) {
-            buf[i] = guess[i];
+    for (size_t i = 0; i < words->guess_len; i++) {
+        if (words->guess[i] == words->secret_word[i]) {
+            buf[i] = words->guess[i];
             used_letter[i] = 1;
         }
     }
-    for (size_t i = 0; i < len; i++) {
-        if (buf[i] != INVALID_CHAR)
-            continue;
-        for (size_t j = 0; j < len; j++) {
-            if (!used_letter[j] && guess[i] == secret_word[j]) {
-                buf[i] = MISPLACED_CHAR;
-                used_letter[j] = 1;
-                break;
-            }
+}
+
+static void handle_incorect_placement(game_content_t *words, char *buf,
+    unsigned int *used_letter, size_t i)
+{
+    for (size_t j = 0; j < words->guess_len; j++) {
+        if (!used_letter[j] && words->guess[i] == words->secret_word[j]) {
+            buf[i] = MISPLACED_CHAR;
+            break;
         }
     }
-    return!printf("%s\n", buf);
+}
+
+static bool show_matches(char const *guess, char const *secret_word)
+{
+    game_content_t words = {.secret_word = secret_word,
+        .guess = guess, .guess_len = strlen(guess)};
+    char buf[words.guess_len + 1];
+    unsigned int used_letter[words.guess_len] = {};
+
+    memset(buf, INVALID_CHAR, words.guess_len);
+    buf[words.guess_len] = '\0';
+    handle_correct_placements(&words, (char *)buf,
+        (unsigned int *)used_letter);
+    for (size_t i = 0; i < words.guess_len; i++) {
+        if (buf[i] != INVALID_CHAR)
+            continue;
+        handle_incorect_placement(&words, (char *)buf,
+            (unsigned int *)used_letter, i);
+    }
+    return !printf("%s\n", buf);
 }
 
 static bool right_guess(char const *inupt, char const *secret_word)
@@ -70,7 +84,7 @@ static bool right_guess(char const *inupt, char const *secret_word)
         return show_matches(inupt, secret_word);
 }
 
-static void invalid_length(unsigned id)
+static void invalid_length(unsigned int id)
 {
     printf("Word too %s. Retry\n", id == 0 ? "short" : "long");
 }
