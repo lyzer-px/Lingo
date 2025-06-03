@@ -11,6 +11,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+ssize_t index_of(char const *str, char c)
+{
+    ssize_t check = 0;
+
+    for (size_t i = 0; str[i]; i++)
+        check += str[i] == c;
+    return check ? check : -1;
+}
+
 static size_t count_delims(char const *str, char delim)
 {
     size_t count = 0;
