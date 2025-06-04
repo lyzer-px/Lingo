@@ -12,7 +12,7 @@
 #include "stdlib.h"
 #include "lingo.h"
 
-static void handle_correct_placements(game_content_t *words, char *buf,
+static void handle_correct_placements(const game_content_t *words, char *buf,
     unsigned int *used_letter)
 {
     for (size_t i = 0; i < words->guess_len; i++) {
@@ -23,8 +23,8 @@ static void handle_correct_placements(game_content_t *words, char *buf,
     }
 }
 
-static void handle_incorect_placement(game_content_t *words, char *buf,
-    unsigned int *used_letter, size_t i)
+static void handle_incorrect_placement(const game_content_t *words, char *buf,
+    const unsigned int *used_letter, const size_t i)
 {
     for (size_t j = 0; j < words->guess_len; j++) {
         if (!used_letter[j] && words->guess[i] == words->secret_word[j]) {
@@ -36,10 +36,10 @@ static void handle_incorect_placement(game_content_t *words, char *buf,
 
 static bool show_matches(char const *guess, char const *secret_word)
 {
-    game_content_t words = {.secret_word = secret_word,
+    const game_content_t words = {.secret_word = secret_word,
         .guess = guess, .guess_len = strlen(guess)};
     char buf[words.guess_len + 1];
-    unsigned int used_letter[words.guess_len] = {};
+    const unsigned int used_letter[words.guess_len] = {};
 
     memset(buf, INVALID_CHAR, words.guess_len);
     buf[words.guess_len] = '\0';
@@ -48,7 +48,7 @@ static bool show_matches(char const *guess, char const *secret_word)
     for (size_t i = 0; i < words.guess_len; i++) {
         if (buf[i] != INVALID_CHAR)
             continue;
-        handle_incorect_placement(&words, (char *)buf,
+        handle_incorrect_placement(&words, (char *)buf,
             (unsigned int *)used_letter, i);
     }
     return !printf("%s\n", buf);
@@ -62,12 +62,7 @@ static bool right_guess(char const *inupt, char const *secret_word)
         return show_matches(inupt, secret_word);
 }
 
-static void invalid_length(unsigned int id)
-{
-    printf("Word too %s. Retry\n", id == 0 ? "short" : "long");
-}
-
-static int handle_user_input(char **user_input, size_t to_guess_len)
+static int handle_user_input(char **user_input, const size_t to_guess_len)
 {
     size_t status = 0;
     size_t len = 0;
@@ -86,8 +81,8 @@ static int handle_user_input(char **user_input, size_t to_guess_len)
 
 static int start_game(char const *secret_word)
 {
-    size_t to_guess_len = strlen(secret_word);
-    size_t attempts = to_guess_len;
+    const size_t to_guess_len = strlen(secret_word);
+    const size_t attempts = to_guess_len;
     char *user_input = NULL;
     bool retry = false;
 

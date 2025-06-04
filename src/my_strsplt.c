@@ -4,16 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-ssize_t index_of(char const *str, char c)
-{
-    ssize_t check = 0;
-
-    for (size_t i = 0; str[i]; i++)
-        check += str[i] == c;
-    return check ? check : -1;
-}
-
-static size_t count_delims(char const *str, char delim)
+static size_t count_delims(char const *str, const char delim)
 {
     size_t count = 0;
 
@@ -22,7 +13,7 @@ static size_t count_delims(char const *str, char delim)
     return count;
 }
 
-static size_t next_word_len(char const *str, char delim)
+static size_t next_word_len(char const *str, const char delim)
 {
     size_t i = 0;
 
@@ -37,7 +28,7 @@ static void end_string(size_t *k, char *adr, size_t *j)
     *j = 0;
 }
 
-char **my_strsplt(char const *str, char delim)
+char **my_strsplt(char const *str, const char delim)
 {
     size_t size = count_delims(str, delim);
     char **array = malloc(sizeof(char *) * (size + 2));

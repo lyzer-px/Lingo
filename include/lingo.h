@@ -19,9 +19,9 @@ void *nfree(void *ptr);
 bool bfree(void *ptr);
 size_t get_depth(char *const *tab);
 void print_prompt(char const *secret_word);
-ssize_t index_of(char const *str, char c);
 int free_array(char **array);
+void invalid_length(unsigned int id);
 int lingo(char const *filepath);
 char **file_to_word_array(char const *filepath);
-char **my_strsplt(char const *str, char delim);
+char **my_strsplt(char const *str, const char delim);
 #endif
